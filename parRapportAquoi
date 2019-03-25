@@ -1,0 +1,52 @@
+####Backreferences in a pattern allow you to specify that the contents of an earlier capturing group must also be found at
+the current location in the string. 
+For example, \1 will succeed if the exact contents of group 1 can be found at the current position, and fails otherwise. 
+Remember that Python’s string literals also use a backslash followed by numbers to allow including arbitrary characters 
+in a string, so be sure to use a raw string when incorporating backreferences in a RE.
+
+For example, the following RE detects doubled words in a string.
+
+>>>
+>>> p = re.compile(r'\b(\w+)\s+\1\b')
+>>> p.search('Paris in the the spring').group()
+'the the'
+Backreferences like this aren’t often useful for just searching through a string — there are few text formats which 
+repeat data in this way — but you’ll soon find out that they’re very useful
+
+####In the previous paragraph we introduced "Capturing Groups" and "Back references". More precisely, we could have 
+called them "Numbered Capturing Groups" and "Numbered Back references". 
+Using capturing groups instead of "numbered" capturing groups allows you to assign descriptive names instead of 
+
+utomatic numbers to the groups. In the following example, we demonstrate this approach by catching the hours, 
+minutes and seconds from a UNIX date string.
+
+
+import re
+s = "Sun Oct 14 13:47:03 CEST 2012"
+expr = r"\b(?P<hours>\d\d):(?P<minutes>\d\d):(?P<seconds>\d\d)\b"
+x = re.search(expr,s)
+x.group('hours')
+
+x.group('minutes')
+
+x.start('minutes')
+x.end('minutes')
+
+x.span('seconds')
+####group()	Return the string matched by the RE
+start()	Return the starting position of the match
+end()	Return the ending position of the match
+span()	Return a tuple containing the (start, end) positions of the match
+Trying these methods will soon clarify their meaning:
+
+>>>
+>>> m.group()
+'tempo'
+>>> m.start(), m.end()
+(0, 5)
+>>> m.span()
+(0, 5)
+group() returns the substring that was matched by the RE. start() and end() return the starting 
+and ending index of the match. 
+
+ 
